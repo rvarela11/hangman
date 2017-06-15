@@ -23,8 +23,6 @@ const errorContainer = document.getElementsByClassName('errorContainer');
 // --------------------- wordContainer -------------------------
 // -------------------------------------------------------------
 
-canvas();
-
 // For loop to assign the value to the correct function
 words.forEach((wordInfo) => {
   createWord(wordInfo.word);
@@ -136,18 +134,20 @@ function checkAnswer (value) {
 // ------------------ stickman ----------------------
 // --------------------------------------------------
 
-const drawArray = [what, rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
+const drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
+const myStickman = document.getElementById("stickman");
+let context = myStickman.getContext('2d');
+
+canvas();
 
 // Animate man
 function animate () {
-  const drawMe = livesLeft ;
+  const drawMe = livesLeft - 1;
   drawArray[drawMe]();
 }
 
 // Hangman
 function canvas (){
-  const myStickman = document.getElementById("stickman");
-  context = myStickman.getContext('2d');
   context.beginPath();
   context.strokeStyle = "#000";
   context.lineWidth = 2;
@@ -172,8 +172,6 @@ function frame4 () {
   draw (60, 5, 60, 15);
 };
 function head (){
-  const myStickman = document.getElementById("stickman");
-  context = myStickman.getContext('2d');
   context.beginPath();
   context.arc(60, 25, 10, 0, Math.PI*2, true);
   context.stroke();
@@ -193,6 +191,3 @@ function leftLeg () {
 function rightLeg () {
   draw (60, 70, 100, 100);
 };
-function what () {
-  console.log("now what?");
-}
