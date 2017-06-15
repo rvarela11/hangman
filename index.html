@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+		<title>Hangman</title>
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+		<section class="home">
+			<header>
+				<h1>HANGMAN</h1>
+			</header>
+			<div class="mainContainer">
+				<div class="missedWordContainer"></div>
+				<div class="wordContainer"></div>
+				<div class="infoContainer">
+					<div class="infoContainer__hint">
+						<h3>Hint</h3>
+					</div>
+					<div class="infoContainer__lives">
+						<h3 id="livesNumber"></h3>
+					</div>
+				</div>
+				<div class="errorContainer"></div>
+				<div class="stickmanContainer">
+					<canvas id="stickman"></canvas>
+				</div>
+				<div class="answerContainer">
+					<form class="answerContainer__form">
+						<input id="form__input" text="box" placeholder="Type Answer"/>
+					</form>
+				</div>
+			</div>
+		</section>
+		<script type="text/javascript" src="main.js"></script>
+	</body>
+</html>
