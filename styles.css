@@ -50,6 +50,10 @@ header h1 {
   width: 30px;
   /*padding-bottom: 8px;*/
 }
+.space {
+  border-bottom: none;
+  width: 30px;
+}
 
 /*--------------------- infoContainer -------------------------*/
 
@@ -62,6 +66,7 @@ header h1 {
   border-radius: 2px;
   flex: 1;
   color: #fff;
+  height: 47px;
 }
 .infoContainer div h3,
 .infoContainer div h4 {
