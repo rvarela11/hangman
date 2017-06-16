@@ -1,14 +1,12 @@
 // Next
-  // 1. iTunes API
-      // a. GET name of Song
-      // b. GET 30 second clip and set it as a hint
-  // 2. SASS
-  // 3. Make it responsive
+  // 1. SASS
+  // 2. Make it responsive
 
 // Global variables
 let word = "";
 let livesLeft = 10;
-let userCorrectGuesses = [];
+let userCorrectGuessesArray = [];
+let userCorrectGuesses = "";
 
 // All Elements
 const wordContainer = document.getElementsByClassName('wordContainer');
@@ -124,8 +122,16 @@ function wrongAnswer (wa) {
   if (livesLeft < 1) {
     livesNumber.innerHTML = "Game Over";
     formInput.disabled = true;
+    showWord();
   } else {
     livesNumber.innerHTML = livesLeft;
+  }
+}
+
+function showWord () {
+  const wordContainerChildren = wordContainer[0].children;
+  for (let i = 0; i < word.length; i++){
+    wordContainerChildren[i].innerHTML = word[i];
   }
 }
 
@@ -153,6 +159,7 @@ function submit (e) {
       errorContainer[0].innerHTML = "Don't be shy. Type a letter.";
       break;
     default:
+    errorContainer[0].innerHTML = "";
       checkAnswer(formInput.value);
   }
   document.getElementById('form__input').value = "";
@@ -170,19 +177,25 @@ function checkAnswer (value) {
     for (let i = 0; i < wordSplit.length; i++) {
       if (wordSplit[i] === v) {
         wordContainer[0].children[i].innerHTML = v;
-        userCorrectGuesses = [];
+        userCorrectGuessesArray = [];
         for (let i = 0; i < wordContainerChildrenArray.length; i++) {
-          userCorrectGuesses.push(wordContainerChildrenArray[i].innerHTML);
+          userCorrectGuessesArray.push(wordContainerChildrenArray[i].innerHTML);
         }
       }
     }
-    if (userCorrectGuesses.join("") === word.split(" ").join("")) {
+    decodeHTMLEntities(userCorrectGuessesArray.join(""));
+    if (userCorrectGuesses === word.split(" ").join("")) {
       livesNumber.innerHTML = "Winner!";
       formInput.disabled = true;
     }
   } else {
     wrongAnswer(v);
   }
+}
+
+function decodeHTMLEntities (str) {
+    str = str.replace(/&amp;/g, '&')
+    userCorrectGuesses = str;
 }
 
 // --------------------------------------------------
