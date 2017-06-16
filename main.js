@@ -10,10 +10,7 @@ let userCorrectGuesses = "";
 
 // All Elements
 const wordContainer = document.getElementsByClassName('wordContainer');
-
-const hint = document.getElementsByClassName('infoContainer__hint');
 const audioPlayer = document.getElementById('audio_preview');
-
 const livesNumber = document.getElementById('livesNumber');
 const missedWordContainer = document.getElementsByClassName('missedWordContainer');
 const form = document.getElementsByClassName('answerContainer__form');
@@ -21,6 +18,7 @@ const formInput = document.getElementById('form__input');
 const errorContainer = document.getElementsByClassName('errorContainer');
 const playButton = document.querySelector('.answerContainer__button');
 
+// Disable input box until the "Play" button is clicked
 formInput.disabled = true;
 
 // ------------------------------------------------------------------------
@@ -37,11 +35,12 @@ function playButtonClicked () {
   resetLives();
   clearCanvas();
   canvas();
-  // createHint(wordInfo.hint);
 
+  //Set the lives container to 10 & enable input box
   createLives();
   formInput.disabled = false;
 
+  //This URL will return a top 10 list. The artistPicked const is to select different songs each time the "Play" button is clicked
   const URL = 'http://itunes.apple.com/us/rss/topsongs/genre=1/json';
 
   fetch(URL)
@@ -66,10 +65,10 @@ function playButtonClicked () {
 
 function createWord (w) {
   word = w;
-  console.log(w);
   for (let i = 0; i < w.length; i++){
     const divChild = document.createElement('div');
 
+    // Separating the spaces in the artist name
     if (w[i].charCodeAt(0) - 97 === -65) {
       divChild.classList.add('space');
       wordContainer[0].appendChild(divChild);
@@ -91,13 +90,6 @@ function clearWord () {
 // ------------------ infoContainer ----------------------
 // -------------------------------------------------------
 
-function createHint (h) {
-  const h4Hint = document.createElement('h4');
-  h4Hint.innerHTML = h;
-  h4Hint.classList.add('infoHint');
-  hint[0].appendChild(h4Hint);
-}
-
 function createAudioPlayer (l) {
   audioPlayer.setAttribute("src",l);
 }
@@ -116,7 +108,12 @@ function resetLives () {
 // -------------------------------------------------------------
 
 function wrongAnswer (wa) {
+  // Animate is for the stickman hangman
   animate();
+
+  // The wrong character will be placed in the missedWordContainer.
+  // Lives will reduce by 1.
+  // Lives hit 0 the user will be shown "Game Over" and the input box will become disabled. The word will also be shown
   missedWordContainer[0].innerHTML = missedWordContainer[0].innerHTML + wa;
   livesLeft--;
   if (livesLeft < 1) {
@@ -147,7 +144,6 @@ form[0].addEventListener('submit', submit);
 
 function submit (e) {
   const formValueLen = formInput.value.length;
-  const alphabetNumber = formInput.value.toLowerCase().charCodeAt(0) - 97;
   e.preventDefault();
 
 // This switch sends error messages
@@ -206,7 +202,7 @@ const drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, 
 const myStickman = document.getElementById("stickman");
 let context = myStickman.getContext('2d');
 
-// Animate man
+// Animate 
 function animate () {
   const drawMe = livesLeft - 1;
   drawArray[drawMe]();
