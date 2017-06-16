@@ -106,9 +106,30 @@ canvas{
 .answerContainer {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+}
+.answerContainer div {
+  display: flex;
+  flex: 1;
+}
+.answerContainer__button {
+  border: none;
+  background-color: #009933;
+  color: white;
+  width: 100%;
+  margin-right: 5px;
+  border-radius: 2px;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.answerContainer__button:hover {
+  background-color: green;
+}
+.answerContainer__form {
+  width: 100%;
+  margin-left: 5px;
 }
 .answerContainer__form input {
-  width: 100%;
   font-size: 1.15rem;
+  width: 100%;
+  box-sizing:border-box;
 }

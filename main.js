@@ -1,9 +1,9 @@
-const words = [
-  {
-    word: 'cowboys',
-    hint: 'Dallas'
-  }
-];
+// Next
+  // 1. iTunes API
+      // a. GET name of Song
+      // b. GET 30 second clip and set it as a hint
+  // 2. SASS
+  // 3. Make it responsive
 
 // Global variables
 let word = "";
@@ -18,24 +18,25 @@ const missedWordContainer = document.getElementsByClassName('missedWordContainer
 const form = document.getElementsByClassName('answerContainer__form');
 const formInput = document.getElementById('form__input');
 const errorContainer = document.getElementsByClassName('errorContainer');
+const playButton = document.querySelector('.answerContainer__button');
 
 // -------------------------------------------------------------
 // --------------------- wordContainer -------------------------
 // -------------------------------------------------------------
 
-// For loop to assign the value to the correct function
-words.forEach((wordInfo) => {
-  createWord(wordInfo.word);
-  word = wordInfo.word;
-  createHint(wordInfo.hint);
-  createLives();
-})
-
 function createWord(w) {
+  console.log(w);
   for (let i = 0; i < w.length; i++){
     const divChild = document.createElement('div');
     divChild.classList.add('wordBreakdown');
     wordContainer[0].appendChild(divChild);
+  }
+}
+
+function clearWord () {
+  const wordContainerChildrenArray = wordContainer[0].children;
+  for (let i = 0; i < wordContainerChildrenArray.length; i++) {
+    wordContainer[0].removeChild(wordContainerChildrenArray[i]);
   }
 }
 
@@ -128,6 +129,36 @@ function checkAnswer (value) {
   } else {
     wrongAnswer(v);
   }
+}
+
+// ------------------------------------------------------------------------
+// --------------------- answerContainer API Button -----------------------
+// ------------------------------------------------------------------------
+
+playButton.addEventListener('click', playButtonClicked);
+
+function playButtonClicked () {
+
+  clearWord();
+  // createHint(wordInfo.hint);
+  createLives();
+
+  const URL = 'http://itunes.apple.com/us/rss/topsongs/genre=1/json';
+
+  fetch(URL)
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    const artistPicked = data.feed.entry[Math.floor(Math.random()* 11)];
+    createWord(artistPicked['im:artist'].label);
+    word = artistPicked['im:artist'].label;
+    // console.log(artistPicked.link[1].attributes.href);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
 }
 
 // --------------------------------------------------
