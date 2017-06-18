@@ -1,7 +1,3 @@
-// Next
-  // 1. SASS
-  // 2. Make it responsive
-
 // All Elements
 const wordContainer = document.getElementsByClassName('wordContainer');
 const audioPlayer = document.getElementById('audio_preview');
@@ -12,13 +8,13 @@ const formInput = document.getElementById('form__input');
 const errorContainer = document.getElementsByClassName('errorContainer');
 const playButton = document.querySelector('.answerContainer__button');
 
+
 // Global variables
 let word = "";
 let livesLeft = 10;
 let userCorrectGuessesArray = [];
 let userCorrectGuesses = "";
 const wordContainerChildren = wordContainer[0].children;
-
 
 // Disable input box until the "Play" button is clicked
 formInput.disabled = true;
@@ -30,6 +26,7 @@ formInput.disabled = true;
 playButton.addEventListener('click', playButtonClicked);
 
 function playButtonClicked () {
+
 
   //clear containers
   clearWrongAnswer();
