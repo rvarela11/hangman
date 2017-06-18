@@ -2,12 +2,6 @@
   // 1. SASS
   // 2. Make it responsive
 
-// Global variables
-let word = "";
-let livesLeft = 10;
-let userCorrectGuessesArray = [];
-let userCorrectGuesses = "";
-
 // All Elements
 const wordContainer = document.getElementsByClassName('wordContainer');
 const audioPlayer = document.getElementById('audio_preview');
@@ -17,6 +11,14 @@ const form = document.getElementsByClassName('answerContainer__form');
 const formInput = document.getElementById('form__input');
 const errorContainer = document.getElementsByClassName('errorContainer');
 const playButton = document.querySelector('.answerContainer__button');
+
+// Global variables
+let word = "";
+let livesLeft = 10;
+let userCorrectGuessesArray = [];
+let userCorrectGuesses = "";
+const wordContainerChildren = wordContainer[0].children;
+
 
 // Disable input box until the "Play" button is clicked
 formInput.disabled = true;
@@ -71,16 +73,14 @@ function createWord (w) {
     // Separating the spaces in the artist name
     if (w[i].charCodeAt(0) - 97 === -65) {
       divChild.classList.add('space');
-      wordContainer[0].appendChild(divChild);
     } else {
       divChild.classList.add('wordBreakdown');
-      wordContainer[0].appendChild(divChild);
     }
+    wordContainer[0].appendChild(divChild);
   }
 }
 
 function clearWord () {
-  const wordContainerChildren = wordContainer[0].children;
   for (let i = wordContainerChildren.length - 1; i >=0; i--) {
     wordContainer[0].removeChild(wordContainerChildren[i]);
   }
@@ -95,7 +95,7 @@ function createAudioPlayer (l) {
 }
 
 function createLives () {
-  livesNumber.innerHTML = 10;
+  livesNumber.innerHTML = livesLeft;
 }
 
 function resetLives () {
@@ -126,7 +126,6 @@ function wrongAnswer (wa) {
 }
 
 function showWord () {
-  const wordContainerChildren = wordContainer[0].children;
   for (let i = 0; i < word.length; i++){
     wordContainerChildren[i].innerHTML = word[i];
   }
@@ -166,7 +165,6 @@ function checkAnswer (value) {
 
   const v = value.toLowerCase();
   const wordSplit = word.split("");
-  const wordContainerChildrenArray = wordContainer[0].children;
 
 //If the value is included in the word
   if(word.includes(v)) {
@@ -174,8 +172,8 @@ function checkAnswer (value) {
       if (wordSplit[i] === v) {
         wordContainer[0].children[i].innerHTML = v;
         userCorrectGuessesArray = [];
-        for (let i = 0; i < wordContainerChildrenArray.length; i++) {
-          userCorrectGuessesArray.push(wordContainerChildrenArray[i].innerHTML);
+        for (let i = 0; i < wordContainerChildren.length; i++) {
+          userCorrectGuessesArray.push(wordContainerChildren[i].innerHTML);
         }
       }
     }
@@ -202,7 +200,7 @@ const drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, 
 const myStickman = document.getElementById("stickman");
 let context = myStickman.getContext('2d');
 
-// Animate 
+// Animate
 function animate () {
   const drawMe = livesLeft - 1;
   drawArray[drawMe]();

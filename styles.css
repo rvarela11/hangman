@@ -23,7 +23,7 @@ header h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 2vh;
+  height: 20px;
   background-color: #ff6666;
   border-radius: 2px;
   color: #fff;
@@ -36,7 +36,7 @@ header h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 2vh;
+  height: 20px;
 }
 .wordContainer > div {
   margin: 0 5px;
@@ -89,7 +89,7 @@ header h1 {
 /*--------------------- errorContainer -------------------------*/
 
 .errorContainer {
-  height: 2vh;
+  height: 20px;
   color: red;
   text-align: center;
 }
@@ -138,4 +138,19 @@ canvas{
   font-size: 1.15rem;
   width: 100%;
   box-sizing:border-box;
+}
+
+/*--------------------- Responsive General -------------------------*/
+
+
+@media screen and (max-width: 700px) {
+  .mainContainer {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 337px) {
+  canvas {
+    width: 75%;
+  }
 }
