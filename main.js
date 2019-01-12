@@ -1,196 +1,185 @@
 // All Elements
-const wordContainer = document.getElementsByClassName('wordContainer');
+const answerForm = document.getElementById('answer-form');
+const answerInput = document.getElementById('answer-input');
 const audioPlayer = document.getElementById('audio_preview');
+const errorMessage = document.getElementById('error-message');
 const livesNumber = document.getElementById('livesNumber');
-const missedWordContainer = document.getElementsByClassName('missedWordContainer');
-const form = document.getElementsByClassName('answerContainer__form');
-const formInput = document.getElementById('form__input');
-const errorContainer = document.getElementsByClassName('errorContainer');
-const playButton = document.querySelector('.answerContainer__button');
-
+const missedWord = document.getElementById('missedWord');
+const playButton = document.querySelector('.answer-button');
+const wordToGuess = document.getElementById('wordToGuess');
 
 // Global variables
-let word = "";
 let livesLeft = 10;
 let userCorrectGuessesArray = [];
 let userCorrectGuesses = "";
-const wordContainerChildren = wordContainer[0].children;
+let word = "";
+const wordToGuessChildren = wordToGuess.children;
 
 // Disable input box until the "Play" button is clicked
-formInput.disabled = true;
+answerInput.disabled = true;
 
-// ------------------------------------------------------------------------
-// --------------------- answerContainer API Button -----------------------
-// ------------------------------------------------------------------------
+// ---------------------------------------------------------
+// --------------------- Play Button -----------------------
+// ---------------------------------------------------------
 
-playButton.addEventListener('click', playButtonClicked);
+playButton.addEventListener('click', handlePlayButtonClick);
 
-function playButtonClicked () {
+function handlePlayButtonClick () {
 
-
-  //clear containers
-  clearWrongAnswer();
-  clearWord();
-  resetLives();
-  clearCanvas();
   canvas();
 
-  //Set the lives container to 10 & enable input box
-  createLives();
-  formInput.disabled = false;
+  // clear items
+  clearCanvas();
+  clearWord();
+  clearWrongAnswer();
+  resetLives();
 
-  //This URL will return a top 10 list. The artistPicked const is to select different songs each time the "Play" button is clicked
+  // Set lives to 10 & enable answerInput
+  createLives();
+  answerInput.disabled = false;
+
+  // This URL will return a top 10 list. 
   const URL = 'http://itunes.apple.com/us/rss/topsongs/genre=1/json';
 
   fetch(URL)
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
+  .then(response => response.json() )
+  .then((data) => {
     const artistPicked = data.feed.entry[Math.floor(Math.random()* 11)];
     createWord(artistPicked['im:artist'].label.toLowerCase());
     createAudioPlayer(artistPicked.link[1].attributes.href);
   })
-  .catch(function(error) {
-    console.log(error);
+  .catch(error => console.log(error) );
+
+}
+
+// ----------------------------------------------------------------------
+// --------------------- Word To Guess Container ------------------------
+// ----------------------------------------------------------------------
+
+createWord = (artist) => {
+  // Setting artist argument to the global const word
+  word = artist;
+
+  artist.split("").forEach((letter) => {
+    const div = document.createElement('div');
+    // Separating the spaces in the artist name
+    if (letter.charCodeAt(0) - 97 === -65) {
+      div.classList.add('space');
+    } else {
+      div.classList.add('wordBreakdown');
+    }
+    wordToGuess.appendChild(div);
   });
 
 }
 
-
-// -------------------------------------------------------------
-// --------------------- wordContainer -------------------------
-// -------------------------------------------------------------
-
-function createWord (w) {
-  word = w;
-  for (let i = 0; i < w.length; i++){
-    const divChild = document.createElement('div');
-
-    // Separating the spaces in the artist name
-    if (w[i].charCodeAt(0) - 97 === -65) {
-      divChild.classList.add('space');
-    } else {
-      divChild.classList.add('wordBreakdown');
-    }
-    wordContainer[0].appendChild(divChild);
+clearWord = () => {
+  for (let i = wordToGuessChildren.length - 1; i >= 0; i--) {
+    wordToGuess.removeChild(wordToGuessChildren[i]);
   }
 }
 
-function clearWord () {
-  for (let i = wordContainerChildren.length - 1; i >=0; i--) {
-    wordContainer[0].removeChild(wordContainerChildren[i]);
-  }
-}
+// ------------------------------------------------------------------------
+// ------------------ Audio Player & Lives Container ----------------------
+// ------------------------------------------------------------------------
 
-// -------------------------------------------------------
-// ------------------ infoContainer ----------------------
-// -------------------------------------------------------
+createAudioPlayer = link => audioPlayer.setAttribute("src",link);
 
-function createAudioPlayer (l) {
-  audioPlayer.setAttribute("src",l);
-}
+createLives = () => livesNumber.innerHTML = livesLeft;
 
-function createLives () {
-  livesNumber.innerHTML = livesLeft;
-}
+resetLives = () => livesLeft = 10;
 
-function resetLives () {
-  livesLeft = 10;
-}
+// ---------------------------------------------------------------
+// ------------------ Missed Word Container ----------------------
+// ---------------------------------------------------------------
 
+wrongAnswer = (letter) => {
 
-// -------------------------------------------------------------
-// ------------------ missedWordContainer ----------------------
-// -------------------------------------------------------------
-
-function wrongAnswer (wa) {
   // Animate is for the stickman hangman
   animate();
 
-  // The wrong character will be placed in the missedWordContainer.
+  // The wrong character will be placed in the missedWord.
   // Lives will reduce by 1.
-  // Lives hit 0 the user will be shown "Game Over" and the input box will become disabled. The word will also be shown
-  missedWordContainer[0].innerHTML = missedWordContainer[0].innerHTML + wa;
+  // When lives hit 0 the user will be shown "Game Over" and the input box will become disabled. The word will also be shown
+  missedWord.innerHTML += letter;
   livesLeft--;
   if (livesLeft < 1) {
     livesNumber.innerHTML = "Game Over";
-    formInput.disabled = true;
+    answerInput.disabled = true;
     showWord();
   } else {
     livesNumber.innerHTML = livesLeft;
   }
 }
 
-function showWord () {
-  for (let i = 0; i < word.length; i++){
-    wordContainerChildren[i].innerHTML = word[i];
-  }
+showWord = () => {
+  word.split("").forEach((letter, i) => {
+     wordToGuessChildren[i].innerHTML = letter;
+  });
 }
 
-function clearWrongAnswer() {
-  missedWordContainer[0].innerHTML = "";
-}
+clearWrongAnswer = () => missedWord.innerHTML = "";
 
-// -------------------------------------------------------------
-// --------------------- answerContainer -----------------------
-// -------------------------------------------------------------
+// ----------------------------------------------------------
+// --------------------- Answer Input -----------------------
+// ----------------------------------------------------------
 
-form[0].addEventListener('submit', submit);
+answerForm.addEventListener('submit', submit);
 
 function submit (e) {
-  const formValueLen = formInput.value.length;
   e.preventDefault();
+  const answerInputLength = answerInput.value.length;
 
 // This switch sends error messages
   switch (true) {
-    case formValueLen > 1:
-      errorContainer[0].innerHTML = "Please only 1 letter at a time";
+    case answerInputLength > 1:
+      errorMessage.innerHTML = "Please only 1 letter at a time";
       break;
-    case formValueLen === 0:
-      errorContainer[0].innerHTML = "Don't be shy. Type a letter.";
+    case answerInputLength === 0:
+      errorMessage.innerHTML = "Don't be shy. Type a letter.";
       break;
     default:
-    errorContainer[0].innerHTML = "";
-      checkAnswer(formInput.value);
+      errorMessage.innerHTML = "";
+    
+    // Placing the checkAnswer function inside the switch so that the error message does not create wrong letters and the stickman
+    checkAnswer(answerInput.value);
   }
-  document.getElementById('form__input').value = "";
+  document.getElementById('answer-input').value = "";
 }
 
+checkAnswer = (value) => {
 
-function checkAnswer (value) {
-
-  const v = value.toLowerCase();
+  const letter = value.toLowerCase();
   const wordSplit = word.split("");
 
 //If the value is included in the word
-  if(word.includes(v)) {
+  if(word.includes(letter)) {
     for (let i = 0; i < wordSplit.length; i++) {
-      if (wordSplit[i] === v) {
-        wordContainer[0].children[i].innerHTML = v;
+      if (wordSplit[i] === letter) {
+        wordToGuess.children[i].innerHTML = letter;
         userCorrectGuessesArray = [];
-        for (let i = 0; i < wordContainerChildren.length; i++) {
-          userCorrectGuessesArray.push(wordContainerChildren[i].innerHTML);
+        for (let i = 0; i < wordToGuessChildren.length; i++) {
+          userCorrectGuessesArray.push(wordToGuessChildren[i].innerHTML);
         }
       }
     }
     decodeHTMLEntities(userCorrectGuessesArray.join(""));
     if (userCorrectGuesses === word.split(" ").join("")) {
       livesNumber.innerHTML = "Winner!";
-      formInput.disabled = true;
+      answerInput.disabled = true;
     }
   } else {
-    wrongAnswer(v);
+    wrongAnswer(letter);
   }
 }
 
-function decodeHTMLEntities (str) {
+decodeHTMLEntities = (str) => {
     str = str.replace(/&amp;/g, '&')
     userCorrectGuesses = str;
 }
 
 // --------------------------------------------------
-// ------------------ stickman ----------------------
+// ------------------ Stickman ----------------------
 // --------------------------------------------------
 
 const drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];

@@ -6,20 +6,20 @@ header h1 {
   text-align: center;
 }
 
-/*--------------------- mainContainer -------------------------*/
+/*--------------------- main -------------------------*/
 
-.mainContainer {
+.main {
   width: 50%;
   margin: auto;
 }
-.mainContainer > div {
+.main > div {
   margin: 2% 0;
   padding: 1%;
 }
 
-/*--------------------- missedWordContainer -------------------------*/
+/*--------------------- missedWord -------------------------*/
 
-.missedWordContainer {
+.missedWord {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -30,49 +30,47 @@ header h1 {
   letter-spacing: 5px;
 }
 
-/*--------------------- wordContainer -------------------------*/
+/*--------------------- wordToGuess -------------------------*/
 
-.wordContainer {
+.wordToGuess {
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 20px;
 }
-.wordContainer > div {
+.wordToGuess > div {
   margin: 0 5px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /*font-size: 1.25rem;*/
 }
 .wordBreakdown {
   border-bottom: 1px solid #000;
   width: 30px;
-  /*padding-bottom: 8px;*/
 }
 .space {
   border-bottom: none;
   width: 30px;
 }
 
-/*--------------------- infoContainer -------------------------*/
+/*--------------------- info -------------------------*/
 
-.infoContainer {
+.info {
   display: flex;
   flex-direction: row;
 }
-.infoContainer div {
+.info div {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.infoContainer div h3,
-.infoContainer div h4 {
+.info div h3,
+.info div h4 {
   text-align: center;
   margin: 2px 0;
 }
-.infoContainer__lives {
+.info-lives {
   background-color: #1D7CF2;
   border-radius: 2px;
   color: #fff;
@@ -86,17 +84,17 @@ header h1 {
   width: 100%;
 }
 
-/*--------------------- errorContainer -------------------------*/
+/*--------------------- error-message -------------------------*/
 
-.errorContainer {
+.error-message {
   height: 20px;
   color: red;
   text-align: center;
 }
 
-/*--------------------- stickmanContainer -------------------------*/
+/*--------------------- stickman -------------------------*/
 
-.stickmanContainer {
+.stickman {
   display: flex;
   justify-content: center;
 }
@@ -107,17 +105,17 @@ canvas{
   width: 100%;
 }
 
-/*--------------------- answerContainer -------------------------*/
+/*--------------------- answer -------------------------*/
 
-.answerContainer {
+.answer {
   display: flex;
   flex-direction: row;
 }
-.answerContainer div {
+.answer div {
   display: flex;
   flex: 1;
 }
-.answerContainer__button {
+.answer-button {
   border: none;
   background-color: #009933;
   color: white;
@@ -127,14 +125,14 @@ canvas{
   font-size: 1.15rem;
   cursor: pointer;
 }
-.answerContainer__button:hover {
+.answer-button:hover {
   background-color: green;
 }
-.answerContainer__form {
+.answer-file {
   width: 100%;
   margin-left: 5px;
 }
-.answerContainer__form input {
+.answer-file input {
   font-size: 1.15rem;
   width: 100%;
   box-sizing:border-box;
@@ -144,7 +142,7 @@ canvas{
 
 
 @media screen and (max-width: 700px) {
-  .mainContainer {
+  .main {
     width: 100%;
   }
 }

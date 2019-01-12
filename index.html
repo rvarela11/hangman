@@ -4,9 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
 		<title>Hangman</title>
-
 		<link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
@@ -14,33 +12,33 @@
 			<header>
 				<h1>MUSIC HANGMAN</h1>
 			</header>
-			<div class="mainContainer">
-				<div class="missedWordContainer"></div>
-				<div class="wordContainer"></div>
-				<div class="infoContainer">
-					<div class="infoContainer__hint">
-          	<audio id="audio_preview" controls autoplay></audio>
+			<div class="main">
+				<div id="missedWord" class="missedWord"></div>
+				<div id="wordToGuess" class="wordToGuess"></div>
+				<div class="info">
+					<div>
+          				<audio id="audio_preview" controls autoplay></audio>
 					</div>
-					<div class="infoContainer__lives">
+					<div class="info-lives">
 						<h3 id="livesNumber"></h3>
 					</div>
 				</div>
-				<div class="errorContainer"></div>
-				<div class="stickmanContainer">
+				<div id="error-message" class="error-message"></div>
+				<div class="stickman">
 					<canvas id="stickman"></canvas>
 				</div>
-				<div class="answerContainer">
+				<div class="answer">
 					<div>
-						<button class="answerContainer__button">Play</button>
+						<button class="answer-button">Play</button>
 					</div>
 					<div>
-						<form class="answerContainer__form">
-							<input id="form__input" text="box" placeholder="Type Answer"/>
+						<form id="answer-form" class="answer-file">
+							<input id="answer-input" text="box" placeholder="Type Answer"/>
 						</form>
 					</div>
 				</div>
 			</div>
 		</section>
-		<script type="text/javascript" src="main.js"></script>
+		<script src="main.js"></script>
 	</body>
 </html>
